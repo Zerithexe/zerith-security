@@ -3,25 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- SEO Meta Tags -->
   <title>Zerith Security Bot — Yapay Zeka Destekli Güvenlik Aracı</title>
-  <meta name="description" content="Zerith Security Bot, zafiyet tespiti, şifre analizi ve log incelemesi yapan ücretsiz, açık kaynaklı bir güvenlik aracıdır." />
-  <meta name="keywords" content="zerith security, zerith security bot, siber güvenlik, zafiyet taraması, güvenlik botu, hacking tool, security scanner" />
-  <meta name="author" content="Zerith Security" />
+  <meta name="description" content="Zerith Security Bot, zafiyet tespiti, şifre analizi ve log incelemesi yapan ücretsiz Discord güvenlik botudur." />
+  <meta name="keywords" content="zerith security, zerith security bot, discord güvenlik botu, siber güvenlik, zafiyet taraması" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://zerithsecurity.vercel.app/" />
-
-  <!-- Open Graph (sosyal medya önizleme) -->
+  <link rel="canonical" href="https://zerith-security.vercel.app/" />
   <meta property="og:title" content="Zerith Security Bot" />
-  <meta property="og:description" content="Yapay zeka destekli güvenlik tarama ve analiz aracı." />
+  <meta property="og:description" content="Yapay zeka destekli Discord güvenlik botu." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://zerithsecurity.vercel.app/" />
-
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
-
   <style>
     :root {
       --bg: #080b14;
@@ -34,531 +25,208 @@
       --muted: #64748b;
       --card: #111827;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Grid background */
+    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden; }
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(167,139,250,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(167,139,250,0.04) 1px, transparent 1px);
+      position: fixed; inset: 0;
+      background-image: linear-gradient(rgba(167,139,250,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(167,139,250,0.04) 1px, transparent 1px);
       background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
-    /* Glow blobs */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.12;
-      pointer-events: none;
-      z-index: 0;
-    }
+    .blob { position: fixed; border-radius: 50%; filter: blur(80px); opacity: 0.12; pointer-events: none; z-index: 0; }
     .blob-1 { width: 500px; height: 500px; background: var(--accent1); top: -100px; left: -100px; }
     .blob-2 { width: 400px; height: 400px; background: var(--accent2); bottom: 0; right: -100px; }
     .blob-3 { width: 300px; height: 300px; background: var(--accent3); top: 50%; left: 50%; transform: translate(-50%,-50%); }
 
-    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      backdrop-filter: blur(20px);
-      background: rgba(8,11,20,0.8);
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(20px); background: rgba(8,11,20,0.8);
       border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 1rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-    }
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: color 0.2s;
-    }
+    .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; background: linear-gradient(90deg, var(--accent1), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
+    .nav-invite { background: linear-gradient(135deg, #5865F2, #7289da); color: #fff !important; padding: 8px 18px; border-radius: 8px; font-size: 0.82rem !important; transition: opacity 0.2s !important; }
+    .nav-invite:hover { opacity: 0.85; }
 
-    /* SECTIONS */
     section { position: relative; z-index: 1; }
 
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 1.5rem 4rem;
-    }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(167,139,250,0.1);
-      border: 1px solid rgba(167,139,250,0.25);
-      border-radius: 999px;
-      padding: 5px 14px;
-      font-size: 0.75rem;
-      font-family: 'Space Mono', monospace;
-      color: var(--accent1);
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.6s ease both;
-    }
+    #hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 1.5rem 4rem; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25); border-radius: 999px; padding: 5px 14px; font-size: 0.75rem; font-family: 'Space Mono', monospace; color: var(--accent1); margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
     .hero-tag::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-    h1 {
-      font-size: clamp(2.5rem, 7vw, 5.5rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 1.25rem;
-      animation: fadeUp 0.7s ease 0.1s both;
-    }
-    h1 .grad {
-      background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc {
-      max-width: 560px;
-      color: var(--muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-      animation: fadeUp 0.7s ease 0.2s both;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 0.7s ease 0.3s both;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #fff;
-      padding: 12px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 12px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      background: transparent;
-      cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-    }
+    h1 { font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -2px; margin-bottom: 1.25rem; animation: fadeUp 0.7s ease 0.1s both; }
+    h1 .grad { background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 50%, var(--accent3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-desc { max-width: 560px; color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2.5rem; animation: fadeUp 0.7s ease 0.2s both; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; animation: fadeUp 0.7s ease 0.3s both; }
+    .btn-discord { background: linear-gradient(135deg, #5865F2, #7289da); color: #fff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: opacity 0.2s, transform 0.2s; display: flex; align-items: center; gap: 8px; }
+    .btn-discord:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--border); color: var(--text); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1rem; background: transparent; cursor: pointer; transition: border-color 0.2s, transform 0.2s; }
     .btn-outline:hover { border-color: var(--accent1); transform: translateY(-2px); }
-
-    .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-top: 4rem;
-      animation: fadeUp 0.7s ease 0.4s both;
-    }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.7s ease 0.4s both; }
     .stat { text-align: center; }
-    .stat-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .stat-num { font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent1), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* FEATURES */
-    #features {
-      padding: 6rem 1.5rem;
-      max-width: 1100px;
+    /* DISCORD CTA banner */
+    #invite {
+      padding: 4rem 1.5rem;
+      max-width: 860px;
       margin: 0 auto;
     }
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent1);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: 3rem;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .feat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
-      transition: border-color 0.3s, transform 0.3s;
+    .invite-card {
+      background: linear-gradient(135deg, rgba(88,101,242,0.15), rgba(114,137,218,0.08));
+      border: 1px solid rgba(88,101,242,0.35);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .feat-card::before {
+    .invite-card::before {
       content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      opacity: 0;
-      transition: opacity 0.3s;
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(88,101,242,0.2), transparent 70%);
     }
+    .discord-logo { font-size: 3rem; margin-bottom: 1rem; }
+    .invite-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.75rem; }
+    .invite-desc { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 500px; margin: 0 auto 2rem; }
+    .invite-stats { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .invite-stat { text-align: center; }
+    .invite-stat-num { font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700; color: #7289da; }
+    .invite-stat-label { font-size: 0.75rem; color: var(--muted); }
+
+    #features { padding: 6rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent1); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+    .feat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden; }
+    .feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.3s; }
     .feat-card:hover { border-color: rgba(167,139,250,0.3); transform: translateY(-4px); }
     .feat-card:hover::before { opacity: 1; }
     .feat-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent1), var(--accent2)); }
     .feat-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), #fb923c); }
     .feat-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), #60a5fa); }
     .feat-card:nth-child(4)::before { background: linear-gradient(90deg, #60a5fa, var(--accent1)); }
-
-    .feat-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-    }
-    .ic1 { background: rgba(167,139,250,0.15); }
-    .ic2 { background: rgba(244,114,182,0.15); }
-    .ic3 { background: rgba(52,211,153,0.15); }
-    .ic4 { background: rgba(96,165,250,0.15); }
-
+    .feat-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1rem; }
+    .ic1{background:rgba(167,139,250,0.15)} .ic2{background:rgba(244,114,182,0.15)} .ic3{background:rgba(52,211,153,0.15)} .ic4{background:rgba(96,165,250,0.15)}
     .feat-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
     .feat-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .feat-cmd { margin-top: 0.75rem; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent3); background: rgba(52,211,153,0.08); padding: 4px 10px; border-radius: 6px; display: inline-block; }
 
-    /* DEMO / CHAT */
-    #demo {
-      padding: 6rem 1.5rem;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-    .chat-wrap {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 2.5rem;
-    }
-    .chat-bar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .chat-bar-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--accent3);
-      box-shadow: 0 0 8px var(--accent3);
-    }
-    .chat-bar-name {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--text);
-    }
-    .chat-bar-status {
-      font-size: 0.72rem;
-      color: var(--accent3);
-      margin-left: auto;
-      font-family: 'Space Mono', monospace;
-    }
-    .chat-msgs {
-      padding: 1.5rem;
-      min-height: 280px;
-      max-height: 360px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .chat-msgs::-webkit-scrollbar { width: 4px; }
-    .chat-msgs::-webkit-scrollbar-track { background: transparent; }
-    .chat-msgs::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
+    #demo { padding: 6rem 1.5rem; max-width: 860px; margin: 0 auto; }
+    .chat-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-top: 2.5rem; }
+    .chat-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .chat-bar-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent3); box-shadow: 0 0 8px var(--accent3); }
+    .chat-bar-name { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--text); }
+    .chat-bar-status { font-size: 0.72rem; color: var(--accent3); margin-left: auto; font-family: 'Space Mono', monospace; }
+    .chat-msgs { padding: 1.5rem; min-height: 280px; max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .chat-msgs::-webkit-scrollbar{width:4px} .chat-msgs::-webkit-scrollbar-track{background:transparent} .chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
     .msg-row { display: flex; gap: 10px; align-items: flex-end; }
     .msg-row.user { flex-direction: row-reverse; }
-    .msg-av {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-    }
-    .msg-av.bot { background: linear-gradient(135deg, var(--accent1), var(--accent2)); }
+    .msg-av { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .msg-av.bot { background: linear-gradient(135deg, #5865F2, #7289da); color: #fff; }
     .msg-av.usr { background: var(--surface); border: 1px solid var(--border); font-size:11px; color:var(--muted); }
-    .bubble {
-      max-width: 75%;
-      padding: 10px 14px;
-      border-radius: 14px;
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
-    .bubble.bot {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-bottom-left-radius: 4px;
-      color: var(--text);
-    }
-    .bubble.usr {
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      color: #fff;
-      border-bottom-right-radius: 4px;
-    }
-    .bubble code {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.78rem;
-      background: rgba(255,255,255,0.08);
-      padding: 1px 5px;
-      border-radius: 4px;
-    }
+    .bubble { max-width: 78%; padding: 10px 14px; border-radius: 14px; font-size: 0.85rem; line-height: 1.6; }
+    .bubble.bot { background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; color: var(--text); }
+    .bubble.usr { background: linear-gradient(135deg, #5865F2, #7289da); color: #fff; border-bottom-right-radius: 4px; }
+    .bubble code { font-family: 'Space Mono', monospace; font-size: 0.78rem; background: rgba(255,255,255,0.1); padding: 1px 5px; border-radius: 4px; }
+    .typing-dots { display:flex; gap:4px; padding:4px 0; }
+    .typing-dots span { width:6px; height:6px; border-radius:50%; background:var(--muted); animation:tdot 1.2s infinite; }
+    .typing-dots span:nth-child(2){animation-delay:0.2s} .typing-dots span:nth-child(3){animation-delay:0.4s}
+    @keyframes tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+    .chat-input-bar { border-top: 1px solid var(--border); padding: 1rem 1.25rem; display: flex; gap: 10px; background: var(--surface); }
+    .chat-input-bar input { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text); font-family:'Syne',sans-serif; font-size:0.85rem; outline:none; transition:border-color 0.2s; }
+    .chat-input-bar input:focus{border-color:var(--accent1)}
+    .chat-input-bar input::placeholder{color:var(--muted)}
+    .chat-send { width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#5865F2,#7289da); border:none; color:#fff; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:opacity 0.2s; }
+    .chat-send:hover{opacity:0.8}
+    .demo-note { text-align:center; margin-top:1rem; font-size:0.78rem; color:var(--muted); }
+    .demo-note a { color:#7289da; text-decoration:none; }
+    .demo-note a:hover { text-decoration:underline; }
 
-    .typing-dots { display: flex; gap: 4px; padding: 4px 0; }
-    .typing-dots span {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--muted);
-      animation: tdot 1.2s infinite;
-    }
-    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes tdot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+    /* HOW */
+    #how { padding: 6rem 1.5rem; max-width: 900px; margin: 0 auto; }
+    .steps { display:flex; flex-direction:column; gap:0; margin-top:2.5rem; position:relative; }
+    .steps::before { content:''; position:absolute; left:22px; top:0; bottom:0; width:1px; background:linear-gradient(to bottom, #5865F2, var(--accent2), var(--accent3)); opacity:0.3; }
+    .step { display:flex; gap:1.5rem; padding:1.5rem 0; }
+    .step-num { width:44px; height:44px; border-radius:50%; background:var(--card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:0.8rem; font-weight:700; color:#7289da; flex-shrink:0; position:relative; z-index:1; }
+    .step-body{padding-top:8px}
+    .step-title{font-size:1rem;font-weight:600;margin-bottom:4px}
+    .step-desc{font-size:0.85rem;color:var(--muted);line-height:1.6}
+    .step-cmd{margin-top:6px;font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent3);background:rgba(52,211,153,0.08);padding:5px 10px;border-radius:6px;display:inline-block}
 
-    .chat-input-bar {
-      border-top: 1px solid var(--border);
-      padding: 1rem 1.25rem;
-      display: flex;
-      gap: 10px;
-      background: var(--surface);
-    }
-    .chat-input-bar input {
-      flex: 1;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
-      font-size: 0.85rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .chat-input-bar input:focus { border-color: var(--accent1); }
-    .chat-input-bar input::placeholder { color: var(--muted); }
-    .chat-send {
-      width: 40px; height: 40px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: opacity 0.2s;
-    }
-    .chat-send:hover { opacity: 0.8; }
+    /* BOTTOM CTA */
+    #cta { padding: 6rem 1.5rem; max-width: 860px; margin: 0 auto; text-align: center; }
+    .cta-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem; }
+    .cta-desc { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; }
 
-    /* HOW IT WORKS */
-    #how {
-      padding: 6rem 1.5rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-top: 2.5rem;
-      position: relative;
-    }
-    .steps::before {
-      content: '';
-      position: absolute;
-      left: 22px; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--accent1), var(--accent2), var(--accent3));
-      opacity: 0.3;
-    }
-    .step {
-      display: flex;
-      gap: 1.5rem;
-      padding: 1.5rem 0;
-    }
-    .step-num {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent1);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-    }
-    .step-body { padding-top: 8px; }
-    .step-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-    .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-    /* SETUP */
-    #setup {
-      padding: 6rem 1.5rem;
-      max-width: 860px;
-      margin: 0 auto;
-    }
-    .code-block {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin: 1rem 0;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--accent3);
-      overflow-x: auto;
-      position: relative;
-    }
-    .code-label {
-      font-size: 0.7rem;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-      font-family: 'Space Mono', monospace;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 10px; right: 10px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--muted);
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      cursor: pointer;
-      font-family: 'Space Mono', monospace;
-      transition: color 0.2s;
-    }
-    .copy-btn:hover { color: var(--text); }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 1.5rem;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .footer-logo {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.9rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
-    }
+    footer { border-top: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align: center; position: relative; z-index: 1; }
+    .footer-logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; font-weight: 700; background: linear-gradient(90deg, var(--accent1), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
     footer p { font-size: 0.78rem; color: var(--muted); }
+    .footer-links { display:flex; justify-content:center; gap:1.5rem; margin-top:1rem; }
+    .footer-links a { font-size:0.78rem; color:var(--muted); text-decoration:none; }
+    .footer-links a:hover { color:var(--text); }
 
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero-stats { gap: 1.5rem; }
-    }
+    @media(max-width:600px){.nav-links{display:none}.hero-stats{gap:1.5rem}.invite-stats{gap:1rem}}
   </style>
 </head>
 <body>
-
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 <div class="blob blob-3"></div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">⚡ ZerithSecurity</div>
   <div class="nav-links">
     <a href="#features">Özellikler</a>
     <a href="#demo">Demo</a>
-    <a href="#how">Nasıl Çalışır</a>
-    <a href="#setup">Kurulum</a>
+    <a href="#how">Nasıl Kullanılır</a>
+    <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="nav-invite">Discord'a Ekle</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-tag">v1.0 — Açık Kaynak &amp; Ücretsiz</div>
+  <div class="hero-tag">Discord Güvenlik Botu — Ücretsiz</div>
   <h1>Güvenliğinizi<br/><span class="grad">yapay zeka</span><br/>yönetsin</h1>
-  <p class="hero-desc">
-    Zerith Security Bot, zafiyet tespiti, şifre analizi ve log incelemesi yapan
-    güçlü, açık kaynaklı bir siber güvenlik aracıdır.
-  </p>
+  <p class="hero-desc">Zerith Security Bot, Discord sunucunuzu zafiyet tespiti, şifre analizi ve log incelemesiyle koruyan güçlü, ücretsiz bir güvenlik botudur.</p>
   <div class="hero-btns">
-    <a href="#demo" class="btn-primary">Hemen Dene →</a>
-    <a href="#setup" class="btn-outline">Kurulum Kılavuzu</a>
+    <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-discord">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Discord'a Ekle — Ücretsiz
+    </a>
+    <a href="#demo" class="btn-outline">Önce Dene →</a>
   </div>
   <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">Ücretsiz</div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Ücretsiz</div></div>
+    <div class="stat"><div class="stat-num">7+</div><div class="stat-label">Güvenlik Modülü</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Çevrimiçi</div></div>
+  </div>
+</section>
+
+<!-- DISCORD INVITE CARD -->
+<section id="invite">
+  <div class="invite-card">
+    <div class="discord-logo">🛡️</div>
+    <div class="invite-title">Discord Sunucunuzu Koruyun</div>
+    <div class="invite-desc">Zerith Security Bot'u sunucunuza ekleyin, güvenlik komutlarını kullanmaya hemen başlayın. Kurulum gerektirmez, tamamen ücretsiz.</div>
+    <div class="invite-stats">
+      <div class="invite-stat"><div class="invite-stat-num">0 sn</div><div class="invite-stat-label">Kurulum Süresi</div></div>
+      <div class="invite-stat"><div class="invite-stat-num">Ücretsiz</div><div class="invite-stat-label">Sonsuza Kadar</div></div>
+      <div class="invite-stat"><div class="invite-stat-num">7/24</div><div class="invite-stat-label">Aktif</div></div>
     </div>
-    <div class="stat">
-      <div class="stat-num">7+</div>
-      <div class="stat-label">Güvenlik Modülü</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">24/7</div>
-      <div class="stat-label">Çevrimiçi</div>
-    </div>
+    <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-discord" style="display:inline-flex;margin:0 auto;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Sunucuya Ekle
+    </a>
   </div>
 </section>
 
@@ -571,21 +239,25 @@
       <div class="feat-icon ic1">🛡️</div>
       <div class="feat-title">Zafiyet Tespiti</div>
       <div class="feat-desc">Sisteminizdeki açıkları ve güvenlik risklerini otomatik olarak tarar ve raporlar.</div>
+      <span class="feat-cmd">/scan &lt;hedef&gt;</span>
     </div>
     <div class="feat-card">
       <div class="feat-icon ic2">🔑</div>
       <div class="feat-title">Hash & Şifre Analizi</div>
       <div class="feat-desc">MD5, SHA-1, SHA-256 hash türlerini tanır ve şifre güvenliğini değerlendirir.</div>
+      <span class="feat-cmd">/hash &lt;değer&gt;</span>
     </div>
     <div class="feat-card">
       <div class="feat-icon ic3">📋</div>
       <div class="feat-title">Log Analizi</div>
-      <div class="feat-desc">Sistem loglarını okur, brute-force, injection ve şüpheli aktiviteleri tespit eder.</div>
+      <div class="feat-desc">Sistem loglarını okur, brute-force ve injection girişimlerini tespit eder.</div>
+      <span class="feat-cmd">/log &lt;dosya&gt;</span>
     </div>
     <div class="feat-card">
       <div class="feat-icon ic4">🌐</div>
       <div class="feat-title">Ağ Güvenliği</div>
-      <div class="feat-desc">Port taraması, IP analizi ve ağ trafiği incelemesi yaparak tehditleri raporlar.</div>
+      <div class="feat-desc">Port taraması, IP analizi ve ağ trafiği incelemesiyle tehditleri raporlar.</div>
+      <span class="feat-cmd">/portscan &lt;ip&gt;</span>
     </div>
   </div>
 </section>
@@ -603,98 +275,101 @@
     <div class="chat-msgs" id="chatBox">
       <div class="msg-row">
         <div class="msg-av bot">⚡</div>
-        <div class="bubble bot">Merhaba! Ben <strong>Zerith Security Bot</strong>. Zafiyet taraması, şifre analizi veya log incelemesi için bir komut girin.</div>
+        <div class="bubble bot">Merhaba! Ben <strong>Zerith Security Bot</strong>. Güvenlik soruları sorabilir, komutları deneyebilirsiniz. Örn: <code>/scan</code>, <code>/hash</code>, <code>/portscan</code></div>
       </div>
     </div>
     <div class="chat-input-bar">
-      <input type="text" id="chatInput" placeholder="Örn: MD5 hash analiz et, port tara, log incele..." />
-      <button class="chat-send" onclick="sendChat()">➤</button>
+      <input type="text" id="chatInput" placeholder="Bir soru veya komut yazın... (/scan, /hash, /portscan)" />
+      <button class="chat-send" id="sendBtn" onclick="sendChat()">➤</button>
     </div>
   </div>
+  <p class="demo-note">Bu bir önizlemedir. Gerçek bot için <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank">Discord'a ekleyin →</a></p>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- HOW -->
 <section id="how">
-  <div class="section-label">// nasıl çalışır</div>
-  <h2 class="section-title">Adım Adım</h2>
+  <div class="section-label">// nasıl kullanılır</div>
+  <h2 class="section-title">3 Adımda Başla</h2>
   <div class="steps">
     <div class="step">
       <div class="step-num">01</div>
       <div class="step-body">
-        <div class="step-title">Komutu Gir</div>
-        <div class="step-desc">Analiz etmek istediğin hedefi veya komutu sohbet arayüzüne yaz.</div>
+        <div class="step-title">Botu Sunucuya Ekle</div>
+        <div class="step-desc">Yukarıdaki "Discord'a Ekle" butonuna tıkla, sunucunu seç ve izinleri onayla. 30 saniye sürer.</div>
       </div>
     </div>
     <div class="step">
       <div class="step-num">02</div>
       <div class="step-body">
-        <div class="step-title">Bot Analiz Eder</div>
-        <div class="step-desc">Zerith Security Bot ilgili güvenlik modülünü çalıştırır ve sonuçları işler.</div>
+        <div class="step-title">Komut Yaz</div>
+        <div class="step-desc">Discord'da herhangi bir kanalda slash komutlarını kullan.</div>
+        <span class="step-cmd">/scan hedef.com</span>
       </div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-body">
-        <div class="step-title">Rapor Al</div>
-        <div class="step-desc">Tespit edilen tehditler, öneriler ve teknik detaylar raporlanır.</div>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div class="step-body">
-        <div class="step-title">Güvende Kal</div>
-        <div class="step-desc">Raporlara göre sistemini güçlendir, tekrar tara ve güvenliğini sürdür.</div>
+        <div class="step-title">Raporu Al</div>
+        <div class="step-desc">Bot saniyeler içinde analiz sonuçlarını, tespit edilen tehditleri ve önerileri raporlar.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SETUP -->
-<section id="setup">
-  <div class="section-label">// kurulum</div>
-  <h2 class="section-title">Kendi Sunucuna Kur</h2>
-
-  <div class="code-label">1. Repoyu klonla</div>
-  <div class="code-block">
-    <button class="copy-btn" onclick="copyCode(this)">kopyala</button>
-    git clone https://github.com/kullaniciadi/zerith-security<br/>
-    cd zerith-security
-  </div>
-
-  <div class="code-label">2. Bağımlılıkları yükle</div>
-  <div class="code-block">
-    <button class="copy-btn" onclick="copyCode(this)">kopyala</button>
-    pip install -r requirements.txt
-  </div>
-
-  <div class="code-label">3. Sunucuyu başlat</div>
-  <div class="code-block">
-    <button class="copy-btn" onclick="copyCode(this)">kopyala</button>
-    uvicorn main:app --host 0.0.0.0 --port 8000
-  </div>
-
-  <div class="code-label">4. Tarayıcıda aç</div>
-  <div class="code-block">
-    <button class="copy-btn" onclick="copyCode(this)">kopyala</button>
-    http://localhost:8000
-  </div>
+<!-- BOTTOM CTA -->
+<section id="cta">
+  <div class="cta-title">Hemen Başla,<br/><span style="background:linear-gradient(135deg,#5865F2,#7289da);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Ücretsiz.</span></div>
+  <p class="cta-desc">Kredi kartı yok, kurulum yok. Discord sunucunuza ekleyin ve anında kullanmaya başlayın.</p>
+  <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-discord" style="display:inline-flex;margin:0 auto;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+    Discord'a Ücretsiz Ekle
+  </a>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">⚡ ZerithSecurity</div>
-  <p>Açık kaynak güvenlik projesi — Ücretsiz kullanın, geliştirin, paylaşın.</p>
+  <p>Açık kaynak Discord güvenlik botu — Ücretsiz kullanın.</p>
+  <div class="footer-links">
+    <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank">Discord'a Ekle</a>
+    <a href="https://github.com/Zerithexe/zerith-security" target="_blank">GitHub</a>
+  </div>
 </footer>
 
 <script>
-const botReplies = [
-  (q) => `<code>${q.slice(0,20)}...</code> analiz ediliyor... <strong>3 potansiyel zafiyet</strong> tespit edildi. CVE-2023-4456, CVE-2022-1271 ve zayıf şifreleme kullanımı raporlandı.`,
-  () => `Hash analizi tamamlandı. <code>MD5</code> formatı tespit edildi — bu format artık güvenli değil. <strong>bcrypt</strong> veya <strong>Argon2</strong> kullanmanızı öneririm.`,
-  () => `Log taraması tamamlandı. Son 24 saatte <strong>127 başarısız giriş</strong> denemesi tespit edildi. Brute-force saldırısı olasılığı yüksek. IP engelleme önerilir.`,
-  () => `Port taraması tamamlandı. Açık portlar: <code>22, 80, 443, 8080, 3306</code>. <strong>3306 (MySQL)</strong> dışarıya açık — kapatmanızı öneririm.`,
-  () => `Ağ trafiği analizi tamamlandı. <strong>2 şüpheli IP</strong> tespit edildi: <code>185.220.101.x</code> (Tor çıkış düğümü). Güvenlik duvarı kuralı oluşturuldu.`,
-];
-let ri = 0;
+const DISCORD_INVITE = "https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands";
+
+async function sendChat() {
+  const inp = document.getElementById('chatInput');
+  const btn = document.getElementById('sendBtn');
+  const val = inp.value.trim();
+  if (!val) return;
+
+  addMsg(val, 'user');
+  inp.value = '';
+  btn.disabled = true;
+  showTyping();
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 300,
+        system: "Sen Zerith Security Bot'sun. Bir Discord siber güvenlik botusun. Kullanıcıların güvenlik sorularını kısa, net ve teknik olarak yanıtla. Komutlar: /scan, /hash, /portscan, /log. Türkçe yanıt ver. Yanıtları 2-3 cümle ile sınırla. Emoji kullanabilirsin.",
+        messages: [{ role: "user", content: val }]
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || "Bir hata oluştu, lütfen tekrar deneyin.";
+    addMsg(reply, 'bot');
+  } catch(e) {
+    removeTyping();
+    addMsg("Bağlantı hatası. Gerçek bot için Discord'a ekleyin! 🛡️", 'bot');
+  }
+  btn.disabled = false;
+}
 
 function addMsg(text, type) {
   const box = document.getElementById('chatBox');
@@ -716,32 +391,9 @@ function showTyping() {
   box.scrollTop = box.scrollHeight;
 }
 
-function sendChat() {
-  const inp = document.getElementById('chatInput');
-  const val = inp.value.trim();
-  if (!val) return;
-  addMsg(val, 'user');
-  inp.value = '';
-  showTyping();
-  setTimeout(() => {
-    document.getElementById('typing')?.remove();
-    addMsg(botReplies[ri % botReplies.length](val), 'bot');
-    ri++;
-  }, 1400);
-}
+function removeTyping() { document.getElementById('typing')?.remove(); }
 
-document.getElementById('chatInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendChat();
-});
-
-function copyCode(btn) {
-  const text = btn.parentElement.innerText.replace('kopyala','').trim();
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = 'kopyalandı ✓';
-    setTimeout(() => btn.textContent = 'kopyala', 2000);
-  });
-}
+document.getElementById('chatInput').addEventListener('keydown', e => { if(e.key==='Enter') sendChat(); });
 </script>
-
 </body>
 </html>
