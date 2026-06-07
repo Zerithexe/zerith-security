@@ -231,6 +231,7 @@
   <div class="nav-logo">⚡ ZerithSecurity</div>
   <div class="nav-links">
     <a href="#features">Özellikler</a>
+    <a href="#commands">Komutlar</a>
     <a href="#demo">Demo</a>
     <a href="#how">Nasıl Kullanılır</a>
     <a href="#reviews">Yorumlar</a>
@@ -252,7 +253,8 @@
   </div>
   <div class="hero-stats">
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Ücretsiz</div></div>
-    <div class="stat"><div class="stat-num">7+</div><div class="stat-label">Güvenlik Modülü</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Komut</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Modül</div></div>
     <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Çevrimiçi</div></div>
   </div>
 </section>
@@ -282,27 +284,156 @@
   <div class="features-grid">
     <div class="feat-card">
       <div class="feat-icon ic1">🛡️</div>
-      <div class="feat-title">Zafiyet Tespiti</div>
-      <div class="feat-desc">Sisteminizdeki açıkları ve güvenlik risklerini otomatik olarak tarar ve raporlar.</div>
-      <span class="feat-cmd">/scan &lt;hedef&gt;</span>
+      <div class="feat-title">Moderasyon</div>
+      <div class="feat-desc">Ban, kick, mute, uyarı sistemi, mesaj temizleme, kanal kilitleme ve otomatik küfür & reklam filtresi.</div>
+      <span class="feat-cmd">!ban !mute !temizle</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon ic2">🔑</div>
-      <div class="feat-title">Hash & Şifre Analizi</div>
-      <div class="feat-desc">MD5, SHA-1, SHA-256 hash türlerini tanır ve şifre güvenliğini değerlendirir.</div>
-      <span class="feat-cmd">/hash &lt;değer&gt;</span>
+      <div class="feat-icon ic2">⭐</div>
+      <div class="feat-title">Seviye & XP Sistemi</div>
+      <div class="feat-desc">Mesaj başına XP kazanımı, seviye atlama bildirimleri, sunucu sıralaması ve detaylı ilerleme çubuğu.</div>
+      <span class="feat-cmd">!rank !leaderboard</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon ic3">📋</div>
-      <div class="feat-title">Log Analizi</div>
-      <div class="feat-desc">Sistem loglarını okur, brute-force ve injection girişimlerini tespit eder.</div>
-      <span class="feat-cmd">/log &lt;dosya&gt;</span>
+      <div class="feat-icon ic3">💰</div>
+      <div class="feat-title">Ekonomi Sistemi</div>
+      <div class="feat-desc">Günlük ödül, çalışma, suç, banka, market, envanter ve sunucu içi para transferi sistemi.</div>
+      <span class="feat-cmd">!daily !market !para</span>
     </div>
     <div class="feat-card">
-      <div class="feat-icon ic4">🌐</div>
-      <div class="feat-title">Ağ Güvenliği</div>
-      <div class="feat-desc">Port taraması, IP analizi ve ağ trafiği incelemesiyle tehditleri raporlar.</div>
-      <span class="feat-cmd">/portscan &lt;ip&gt;</span>
+      <div class="feat-icon ic4">🎮</div>
+      <div class="feat-title">Mini Oyunlar</div>
+      <div class="feat-desc">Trivia, adam asmaca, Wordle, hızlı yazma yarışması — kazananlara otomatik coin ödülü.</div>
+      <span class="feat-cmd">!trivia !hangman !wordle</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon ic1">🎫</div>
+      <div class="feat-title">Ticket Sistemi</div>
+      <div class="feat-desc">Butonlu destek ticket paneli, otomatik kanal oluşturma, log kayıtları ve moderatör erişimi.</div>
+      <span class="feat-cmd">!ticket_panel</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon ic2">🎉</div>
+      <div class="feat-title">Çekiliş Sistemi</div>
+      <div class="feat-desc">Süreli çekilişler başlat, birden fazla kazanan belirle, tepki bazlı otomatik kazanan seçimi.</div>
+      <span class="feat-cmd">!çekiliş 1h 2 ödül</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon ic3">⏰</div>
+      <div class="feat-title">Hatırlatıcı & AFK</div>
+      <div class="feat-desc">Kişisel hatırlatıcılar kur, AFK moduna geç, bahsedildiğinde otomatik AFK bildirimi gönder.</div>
+      <span class="feat-cmd">!hatırlat !afk</span>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon ic4">⚙️</div>
+      <div class="feat-title">Tam Kurulum Sistemi</div>
+      <div class="feat-desc">Karşılama, veda, log, oto-rol, öneri kanalı ve tüm ayarlar slash komutlarıyla kolayca yapılandırılır.</div>
+      <span class="feat-cmd">/setup welcome /setup log</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMMANDS TABLE -->
+<section id="commands" style="padding:6rem 1.5rem;max-width:1100px;margin:0 auto;">
+  <div class="section-label">// komut listesi</div>
+  <h2 class="section-title">Tüm Komutlar</h2>
+  <div class="cmd-tabs" id="cmdTabs">
+    <button class="cmd-tab active" onclick="showTab('mod')">🛡️ Moderasyon</button>
+    <button class="cmd-tab" onclick="showTab('xp')">⭐ Seviye</button>
+    <button class="cmd-tab" onclick="showTab('eco')">💰 Ekonomi</button>
+    <button class="cmd-tab" onclick="showTab('fun')">🎮 Oyunlar</button>
+    <button class="cmd-tab" onclick="showTab('tools')">🛠️ Araçlar</button>
+    <button class="cmd-tab" onclick="showTab('setup')">⚙️ Kurulum</button>
+  </div>
+  <div class="cmd-panels">
+    <div class="cmd-panel active" id="tab-mod">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">!ban @kullanıcı</span><span class="cmd-info">Kullanıcıyı sunucudan banla</span></div>
+        <div class="cmd-item"><span class="cmd-name">!unban kullanıcı</span><span class="cmd-info">Banı kaldır</span></div>
+        <div class="cmd-item"><span class="cmd-name">!kick @kullanıcı</span><span class="cmd-info">Kullanıcıyı at</span></div>
+        <div class="cmd-item"><span class="cmd-name">!mute @kullanıcı [dk]</span><span class="cmd-info">Belirli süre sustur</span></div>
+        <div class="cmd-item"><span class="cmd-name">!unmute @kullanıcı</span><span class="cmd-info">Susturmayı kaldır</span></div>
+        <div class="cmd-item"><span class="cmd-name">!uyar @kullanıcı</span><span class="cmd-info">Uyarı ver (3'te timeout)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!uyariler @kullanıcı</span><span class="cmd-info">Uyarı geçmişini listele</span></div>
+        <div class="cmd-item"><span class="cmd-name">!uyarisil &lt;id&gt;</span><span class="cmd-info">Belirli uyarıyı sil</span></div>
+        <div class="cmd-item"><span class="cmd-name">!temizle [sayı]</span><span class="cmd-info">Toplu mesaj sil (max 100)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!kilitle / !kilitsiz</span><span class="cmd-info">Kanalı kilitle / aç</span></div>
+        <div class="cmd-item"><span class="cmd-name">!yavaşmod [saniye]</span><span class="cmd-info">Yavaş mod ayarla</span></div>
+        <div class="cmd-item"><span class="cmd-name">!küfürfiltre aç/kapat</span><span class="cmd-info">Otomatik küfür filtresi</span></div>
+        <div class="cmd-item"><span class="cmd-name">!not @kullanıcı</span><span class="cmd-info">Gizli mod notu ekle</span></div>
+        <div class="cmd-item"><span class="cmd-name">!duyuru #kanal &lt;metin&gt;</span><span class="cmd-info">@everyone duyurusu gönder</span></div>
+        <div class="cmd-item"><span class="cmd-name">!anket &lt;soru&gt;</span><span class="cmd-info">Anket başlat</span></div>
+        <div class="cmd-item"><span class="cmd-name">!çekiliş &lt;süre&gt; &lt;kazanan&gt; &lt;ödül&gt;</span><span class="cmd-info">Çekiliş başlat</span></div>
+      </div>
+    </div>
+    <div class="cmd-panel" id="tab-xp">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">!rank [@kullanıcı]</span><span class="cmd-info">Seviye kartı & XP ilerleme çubuğu</span></div>
+        <div class="cmd-item"><span class="cmd-name">!leaderboard</span><span class="cmd-info">Sunucu aktivite sıralaması</span></div>
+        <div class="cmd-item"><span class="cmd-name">/rank</span><span class="cmd-info">Slash komutu ile seviye kartı</span></div>
+        <div class="cmd-item"><span class="cmd-name">!kullanici [@kullanıcı]</span><span class="cmd-info">Kullanıcı bilgisi + XP + uyarılar</span></div>
+        <div class="cmd-item"><span class="cmd-name">Otomatik XP</span><span class="cmd-info">Her mesajda 15 XP (60sn bekleme)</span></div>
+        <div class="cmd-item"><span class="cmd-name">Seviye Atlaması</span><span class="cmd-info">Belirlenen kanalda bildirim gönderir</span></div>
+      </div>
+    </div>
+    <div class="cmd-panel" id="tab-eco">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">!para [@kullanıcı]</span><span class="cmd-info">Cüzdan + banka bakiyesi</span></div>
+        <div class="cmd-item"><span class="cmd-name">!daily</span><span class="cmd-info">Günlük ödül (seri bonusu var!)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!çalış</span><span class="cmd-info">Para kazan (1 saat bekleme)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!suç</span><span class="cmd-info">Riskli kazanç (2 saat bekleme)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!yatır &lt;miktar&gt;</span><span class="cmd-info">Bankaya para yatır</span></div>
+        <div class="cmd-item"><span class="cmd-name">!çek &lt;miktar&gt;</span><span class="cmd-info">Bankadan para çek</span></div>
+        <div class="cmd-item"><span class="cmd-name">!gönder @kullanıcı &lt;miktar&gt;</span><span class="cmd-info">Para transfer et (%5 vergi)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!market</span><span class="cmd-info">Ürün listesi (olta, kazma, laptop...)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!satın &lt;ürün_id&gt;</span><span class="cmd-info">Marketten ürün satın al</span></div>
+        <div class="cmd-item"><span class="cmd-name">!sat &lt;ürün_id&gt;</span><span class="cmd-info">Ürünü geri sat</span></div>
+        <div class="cmd-item"><span class="cmd-name">!envanter</span><span class="cmd-info">Eşyalarını listele</span></div>
+        <div class="cmd-item"><span class="cmd-name">!zenginler</span><span class="cmd-info">En zenginler sıralaması</span></div>
+      </div>
+    </div>
+    <div class="cmd-panel" id="tab-fun">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">!trivia [kategori]</span><span class="cmd-info">Bilgi yarışması — kazanana +50 🪙</span></div>
+        <div class="cmd-item"><span class="cmd-name">!hangman [kategori]</span><span class="cmd-info">Adam asmaca — kazanana +100 🪙</span></div>
+        <div class="cmd-item"><span class="cmd-name">!wordle</span><span class="cmd-info">5 harfli kelime bul — +50-150 🪙</span></div>
+        <div class="cmd-item"><span class="cmd-name">!yaz</span><span class="cmd-info">Hızlı yazma yarışması — +75 🪙</span></div>
+        <div class="cmd-item"><span class="cmd-name">!zar [yüz]</span><span class="cmd-info">Zar at (2-100 yüzlü)</span></div>
+        <div class="cmd-item"><span class="cmd-name">!yazıtura</span><span class="cmd-info">Yazı-tura at</span></div>
+        <div class="cmd-item"><span class="cmd-name">!8top &lt;soru&gt;</span><span class="cmd-info">Sihirli 8 top</span></div>
+        <div class="cmd-item"><span class="cmd-name">!ship @k1 @k2</span><span class="cmd-info">Uyumluluk testi</span></div>
+        <div class="cmd-item"><span class="cmd-name">!hack @kullanıcı</span><span class="cmd-info">Animasyonlu sahte hack</span></div>
+        <div class="cmd-item"><span class="cmd-name">!rps &lt;taş/kağıt/makas&gt;</span><span class="cmd-info">Taş kağıt makas oyna</span></div>
+        <div class="cmd-item"><span class="cmd-name">!sayım [sayı]</span><span class="cmd-info">Geri sayım animasyonu</span></div>
+      </div>
+    </div>
+    <div class="cmd-panel" id="tab-tools">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">!hatırlat &lt;süre&gt; &lt;mesaj&gt;</span><span class="cmd-info">Kişisel hatırlatıcı kur</span></div>
+        <div class="cmd-item"><span class="cmd-name">!hatırlatmalar</span><span class="cmd-info">Aktif hatırlatıcıları listele</span></div>
+        <div class="cmd-item"><span class="cmd-name">!afk [sebep]</span><span class="cmd-info">AFK modu — mention'da bildirir</span></div>
+        <div class="cmd-item"><span class="cmd-name">!öneri &lt;metin&gt;</span><span class="cmd-info">Öneri kanalına gönder</span></div>
+        <div class="cmd-item"><span class="cmd-name">!ping</span><span class="cmd-info">Bot gecikmesini göster</span></div>
+        <div class="cmd-item"><span class="cmd-name">!avatar [@kullanıcı]</span><span class="cmd-info">Profil fotoğrafını göster</span></div>
+        <div class="cmd-item"><span class="cmd-name">!sunucu</span><span class="cmd-info">Sunucu istatistikleri</span></div>
+        <div class="cmd-item"><span class="cmd-name">!kullanici [@kullanıcı]</span><span class="cmd-info">Kullanıcı profili</span></div>
+        <div class="cmd-item"><span class="cmd-name">!ticket_panel</span><span class="cmd-info">Destek ticket paneli kur</span></div>
+        <div class="cmd-item"><span class="cmd-name">!yetkili &lt;sebep&gt;</span><span class="cmd-info">Acil yetkili çağrısı</span></div>
+        <div class="cmd-item"><span class="cmd-name">!embed #kanal &lt;başlık&gt;</span><span class="cmd-info">Özel embed mesajı gönder</span></div>
+      </div>
+    </div>
+    <div class="cmd-panel" id="tab-setup">
+      <div class="cmd-grid">
+        <div class="cmd-item"><span class="cmd-name">/setup welcome #kanal</span><span class="cmd-info">Karşılama kanalını ayarla</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup goodbye #kanal</span><span class="cmd-info">Veda kanalını ayarla</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup log #kanal</span><span class="cmd-info">Log kanalını ayarla</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup modrole @rol</span><span class="cmd-info">Moderatör rolünü belirle</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup autorole @rol</span><span class="cmd-info">Yeni üyelere otomatik rol ver</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup levelup #kanal</span><span class="cmd-info">Seviye atlama kanalı</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup suggestion #kanal</span><span class="cmd-info">Öneri kanalını ayarla</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup ticket kategori</span><span class="cmd-info">Ticket sistemini yapılandır</span></div>
+        <div class="cmd-item"><span class="cmd-name">/setup görüntüle</span><span class="cmd-info">Tüm ayarları görüntüle</span></div>
+      </div>
     </div>
   </div>
 </section>
