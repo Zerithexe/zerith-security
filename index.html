@@ -27,7 +27,19 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    /* Metin seçimi engellendi — input ve linkler hariç */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    input, textarea, a, .selectable { user-select: text; -webkit-user-select: text; }
+
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -74,24 +86,15 @@
     .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-    /* DISCORD CTA banner */
-    #invite {
-      padding: 4rem 1.5rem;
-      max-width: 860px;
-      margin: 0 auto;
-    }
+    #invite { padding: 4rem 1.5rem; max-width: 860px; margin: 0 auto; }
     .invite-card {
       background: linear-gradient(135deg, rgba(88,101,242,0.15), rgba(114,137,218,0.08));
       border: 1px solid rgba(88,101,242,0.35);
-      border-radius: 20px;
-      padding: 3rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      border-radius: 20px; padding: 3rem 2rem; text-align: center;
+      position: relative; overflow: hidden;
     }
     .invite-card::before {
-      content: '';
-      position: absolute; top: -60px; right: -60px;
+      content: ''; position: absolute; top: -60px; right: -60px;
       width: 200px; height: 200px;
       background: radial-gradient(circle, rgba(88,101,242,0.2), transparent 70%);
     }
@@ -148,11 +151,13 @@
     .chat-input-bar input::placeholder{color:var(--muted)}
     .chat-send { width:40px; height:40px; border-radius:8px; background:linear-gradient(135deg,#5865F2,#7289da); border:none; color:#fff; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; transition:opacity 0.2s; }
     .chat-send:hover{opacity:0.8}
+    .demo-cmds { display:flex; gap:8px; flex-wrap:wrap; padding:0.75rem 1.25rem; border-top:1px solid var(--border); background:var(--surface); }
+    .demo-cmd-btn { font-family:'Space Mono',monospace; font-size:0.72rem; color:var(--accent3); background:rgba(52,211,153,0.08); border:1px solid rgba(52,211,153,0.2); padding:4px 10px; border-radius:6px; cursor:pointer; transition:background 0.2s,border-color 0.2s; }
+    .demo-cmd-btn:hover { background:rgba(52,211,153,0.15); border-color:rgba(52,211,153,0.4); }
     .demo-note { text-align:center; margin-top:1rem; font-size:0.78rem; color:var(--muted); }
     .demo-note a { color:#7289da; text-decoration:none; }
     .demo-note a:hover { text-decoration:underline; }
 
-    /* HOW */
     #how { padding: 6rem 1.5rem; max-width: 900px; margin: 0 auto; }
     .steps { display:flex; flex-direction:column; gap:0; margin-top:2.5rem; position:relative; }
     .steps::before { content:''; position:absolute; left:22px; top:0; bottom:0; width:1px; background:linear-gradient(to bottom, #5865F2, var(--accent2), var(--accent3)); opacity:0.3; }
@@ -163,7 +168,46 @@
     .step-desc{font-size:0.85rem;color:var(--muted);line-height:1.6}
     .step-cmd{margin-top:6px;font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent3);background:rgba(52,211,153,0.08);padding:5px 10px;border-radius:6px;display:inline-block}
 
-    /* BOTTOM CTA */
+    /* REVIEWS */
+    #reviews { padding: 6rem 1.5rem; max-width: 1000px; margin: 0 auto; }
+    .reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 2.5rem; }
+    @media(max-width:700px){ .reviews-grid{grid-template-columns:1fr} }
+    .reviews-list { display:flex; flex-direction:column; gap:14px; max-height:480px; overflow-y:auto; padding-right:4px; }
+    .reviews-list::-webkit-scrollbar{width:3px} .reviews-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+    .review-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.25rem; transition:border-color 0.2s; }
+    .review-card:hover { border-color: rgba(167,139,250,0.25); }
+    .review-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .review-author { display:flex; align-items:center; gap:10px; }
+    .review-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#5865F2,#a78bfa); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:#fff; flex-shrink:0; }
+    .review-name { font-size:0.85rem; font-weight:600; }
+    .review-date { font-size:0.72rem; color:var(--muted); }
+    .review-stars { color:#f59e0b; font-size:0.9rem; letter-spacing:1px; }
+    .review-text { font-size:0.82rem; color:var(--muted); line-height:1.6; }
+    .review-tag { display:inline-block; margin-top:8px; font-size:0.68rem; font-family:'Space Mono',monospace; background:rgba(52,211,153,0.08); color:var(--accent3); border:1px solid rgba(52,211,153,0.2); padding:2px 8px; border-radius:999px; }
+
+    .review-form-wrap { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.75rem; }
+    .review-form-title { font-size:1rem; font-weight:600; margin-bottom:1.25rem; display:flex; align-items:center; gap:8px; }
+    .review-form-title span { font-size:1.1rem; }
+    .form-group { margin-bottom:14px; }
+    .form-label { font-size:0.75rem; color:var(--muted); font-family:'Space Mono',monospace; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; display:block; }
+    .form-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text); font-family:'Syne',sans-serif; font-size:0.85rem; outline:none; transition:border-color 0.2s; }
+    .form-input:focus { border-color:var(--accent1); }
+    .form-input::placeholder { color:var(--muted); }
+    textarea.form-input { resize:vertical; min-height:90px; }
+    .star-picker { display:flex; gap:6px; margin-top:4px; }
+    .star-btn { background:none; border:none; cursor:pointer; font-size:1.4rem; color:var(--border); transition:color 0.15s,transform 0.1s; padding:0; line-height:1; }
+    .star-btn:hover,.star-btn.active { color:#f59e0b; transform:scale(1.15); }
+    .form-row { display:flex; gap:10px; }
+    .form-row .form-group { flex:1; }
+    .type-select { display:flex; gap:8px; flex-wrap:wrap; }
+    .type-opt { background:var(--bg); border:1px solid var(--border); border-radius:999px; padding:5px 14px; font-size:0.75rem; cursor:pointer; transition:border-color 0.2s,color 0.2s; color:var(--muted); }
+    .type-opt.selected { border-color:var(--accent1); color:var(--accent1); background:rgba(167,139,250,0.08); }
+    .submit-review { width:100%; background:linear-gradient(135deg,#5865F2,#7289da); border:none; border-radius:8px; padding:12px; color:#fff; font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; cursor:pointer; margin-top:6px; transition:opacity 0.2s; }
+    .submit-review:hover { opacity:0.85; }
+    .review-success { display:none; text-align:center; padding:2rem; }
+    .review-success-icon { font-size:2.5rem; margin-bottom:0.75rem; }
+    .review-success p { color:var(--muted); font-size:0.85rem; }
+
     #cta { padding: 6rem 1.5rem; max-width: 860px; margin: 0 auto; text-align: center; }
     .cta-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem; }
     .cta-desc { color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem; }
@@ -189,6 +233,7 @@
     <a href="#features">Özellikler</a>
     <a href="#demo">Demo</a>
     <a href="#how">Nasıl Kullanılır</a>
+    <a href="#reviews">Yorumlar</a>
     <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="nav-invite">Discord'a Ekle</a>
   </div>
 </nav>
@@ -275,11 +320,19 @@
     <div class="chat-msgs" id="chatBox">
       <div class="msg-row">
         <div class="msg-av bot">⚡</div>
-        <div class="bubble bot">Merhaba! Ben <strong>Zerith Security Bot</strong>. Güvenlik soruları sorabilir, komutları deneyebilirsiniz. Örn: <code>/scan</code>, <code>/hash</code>, <code>/portscan</code></div>
+        <div class="bubble bot">Merhaba! Ben <strong>Zerith Security Bot</strong>. Güvenlik soruları sorabilir, komutları deneyebilirsiniz. Örn: <code>/hakkinda</code>, <code>/scan</code>, <code>/hash</code>, <code>/portscan</code></div>
       </div>
     </div>
+    <div class="demo-cmds">
+      <button class="demo-cmd-btn" onclick="quickCmd('/hakkinda')">/hakkinda</button>
+      <button class="demo-cmd-btn" onclick="quickCmd('/scan')">/scan</button>
+      <button class="demo-cmd-btn" onclick="quickCmd('/hash')">/hash</button>
+      <button class="demo-cmd-btn" onclick="quickCmd('/portscan')">/portscan</button>
+      <button class="demo-cmd-btn" onclick="quickCmd('/log')">/log</button>
+      <button class="demo-cmd-btn" onclick="quickCmd('/yardim')">/yardim</button>
+    </div>
     <div class="chat-input-bar">
-      <input type="text" id="chatInput" placeholder="Bir soru veya komut yazın... (/scan, /hash, /portscan)" />
+      <input type="text" id="chatInput" placeholder="Bir komut yazın... (/hakkinda, /scan, /hash ...)" />
       <button class="chat-send" id="sendBtn" onclick="sendChat()">➤</button>
     </div>
   </div>
@@ -316,12 +369,64 @@
   </div>
 </section>
 
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-label">// değerlendirmeler</div>
+  <h2 class="section-title">Kullanıcı Yorumları</h2>
+  <div class="reviews-grid">
+    <div class="reviews-list" id="reviewsList">
+      <!-- Başlangıç yorumları JS ile ekleniyor -->
+    </div>
+    <div class="review-form-wrap">
+      <div class="review-form-title"><span>✍️</span> Yorum & Öneri Bırak</div>
+      <div id="reviewFormInner">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Adınız</label>
+            <input type="text" class="form-input" id="rName" placeholder="Kullanıcı adı..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Puan</label>
+            <div class="star-picker" id="starPicker">
+              <button class="star-btn" data-v="1" onclick="setStar(1)">★</button>
+              <button class="star-btn" data-v="2" onclick="setStar(2)">★</button>
+              <button class="star-btn" data-v="3" onclick="setStar(3)">★</button>
+              <button class="star-btn" data-v="4" onclick="setStar(4)">★</button>
+              <button class="star-btn" data-v="5" onclick="setStar(5)">★</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Yorum Türü</label>
+          <div class="type-select">
+            <div class="type-opt selected" onclick="selectType(this,'Genel')">Genel</div>
+            <div class="type-opt" onclick="selectType(this,'Öneri')">Öneri</div>
+            <div class="type-opt" onclick="selectType(this,'Hata Bildirimi')">Hata Bildirimi</div>
+            <div class="type-opt" onclick="selectType(this,'Teşekkür')">Teşekkür</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Yorumunuz</label>
+          <textarea class="form-input" id="rText" placeholder="Görüşünüzü veya önerinizi yazın..."></textarea>
+        </div>
+        <button class="submit-review" onclick="submitReview()">Yorumu Gönder →</button>
+      </div>
+      <div class="review-success" id="reviewSuccess">
+        <div class="review-success-icon">✅</div>
+        <p style="font-weight:600;margin-bottom:6px;">Yorumunuz alındı!</p>
+        <p>Geri bildiriminiz için teşekkürler.</p>
+        <button class="demo-cmd-btn" style="margin-top:14px" onclick="resetForm()">Yeni Yorum Ekle</button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- BOTTOM CTA -->
 <section id="cta">
   <div class="cta-title">Hemen Başla,<br/><span style="background:linear-gradient(135deg,#5865F2,#7289da);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Ücretsiz.</span></div>
   <p class="cta-desc">Kredi kartı yok, kurulum yok. Discord sunucunuza ekleyin ve anında kullanmaya başlayın.</p>
   <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-discord" style="display:inline-flex;margin:0 auto;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.30z"/></svg>
     Discord'a Ücretsiz Ekle
   </a>
 </section>
@@ -332,43 +437,85 @@
   <div class="footer-links">
     <a href="https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank">Discord'a Ekle</a>
     <a href="https://github.com/Zerithexe/zerith-security" target="_blank">GitHub</a>
+    <a href="#reviews">Yorumlar</a>
   </div>
 </footer>
 
 <script>
-const DISCORD_INVITE = "https://discord.com/oauth2/authorize?client_id=1513141643157569566&permissions=8&integration_type=0&scope=bot+applications.commands";
+/* ── BOT YANIT TABLOSU ── */
+const BOT_RESPONSES = {
+  '/hakkinda': `🛡️ <strong>Zerith Security Bot</strong> hakkında bilgi:<br><br>
+    <strong>Sürüm:</strong> v1.0.0<br>
+    <strong>Geliştirici:</strong> Zerith Team<br>
+    <strong>Platform:</strong> Discord<br>
+    <strong>Amaç:</strong> Discord sunucularını siber tehditlerden korumak<br>
+    <strong>Komutlar:</strong> <code>/scan</code>, <code>/hash</code>, <code>/portscan</code>, <code>/log</code>, <code>/yardim</code><br><br>
+    Tamamen ücretsiz ve açık kaynak! GitHub'da inceleyebilirsiniz.`,
 
-async function sendChat() {
+  '/scan': `🔍 <strong>/scan</strong> — URL veya IP tarama komutu<br><br>
+    <strong>Kullanım:</strong> <code>/scan &lt;hedef&gt;</code><br>
+    <strong>Örnek:</strong> <code>/scan 192.168.1.1</code> veya <code>/scan site.com</code><br><br>
+    Bu komut hedef adresin güvenlik açıklarını, açık portları ve bilinen tehditleri tarar. Sonuçlar detaylı rapor olarak sunulur.<br><br>
+    <em>Demo modunda gerçek tarama yapılmaz — gerçek bot Discord'da aktif!</em>`,
+
+  '/hash': `🔑 <strong>/hash</strong> — Hash analizi ve şifre güvenliği<br><br>
+    <strong>Kullanım:</strong> <code>/hash &lt;değer&gt;</code><br>
+    <strong>Desteklenen:</strong> MD5, SHA-1, SHA-256, SHA-512<br><br>
+    Hash türünü otomatik tanır, sızdırılmış veritabanlarında kontrol eder ve şifre güvenliğini değerlendirir.<br><br>
+    <em>Demo modunda hash hesaplanmaz — gerçek bot Discord'da aktif!</em>`,
+
+  '/portscan': `🌐 <strong>/portscan</strong> — Port tarama komutu<br><br>
+    <strong>Kullanım:</strong> <code>/portscan &lt;ip&gt;</code><br>
+    <strong>Örnek:</strong> <code>/portscan 10.0.0.1</code><br><br>
+    Hedef IP üzerindeki açık portları tarar, çalışan servisleri tespit eder ve olası güvenlik risklerini raporlar.<br><br>
+    ⚠️ Yalnızca izin verilen sistemlerde kullanın. Gerçek bot Discord'da aktif!`,
+
+  '/log': `📋 <strong>/log</strong> — Log analizi komutu<br><br>
+    <strong>Kullanım:</strong> <code>/log &lt;dosya veya içerik&gt;</code><br><br>
+    Sistem loglarını analiz eder, brute-force girişimlerini, SQL injection ve XSS saldırılarını tespit eder. Şüpheli aktiviteleri önem sırasına göre raporlar.<br><br>
+    <em>Demo modunda gerçek analiz yapılmaz — gerçek bot Discord'da aktif!</em>`,
+
+  '/yardim': `📌 <strong>Zerith Security Bot</strong> — Tüm komutlar:<br><br>
+    <code>/hakkinda</code> — Bot hakkında bilgi<br>
+    <code>/scan &lt;hedef&gt;</code> — URL/IP zafiyet tarama<br>
+    <code>/hash &lt;değer&gt;</code> — Hash analizi<br>
+    <code>/portscan &lt;ip&gt;</code> — Port tarama<br>
+    <code>/log &lt;içerik&gt;</code> — Log analizi<br><br>
+    Tüm özelliklere erişmek için botu Discord sunucunuza ekleyin!`,
+};
+
+function getBotResponse(input) {
+  const trimmed = input.trim().toLowerCase();
+  const cmd = trimmed.split(' ')[0];
+  if (BOT_RESPONSES[cmd]) return BOT_RESPONSES[cmd];
+  return `🤖 "<strong>${escapeHtml(input)}</strong>" komutu bu demo için tanımlı değil.<br><br>
+    Deneyin: <code>/hakkinda</code> <code>/scan</code> <code>/hash</code> <code>/portscan</code> <code>/log</code> <code>/yardim</code><br><br>
+    Tüm özellikler için botu Discord'a ekleyin! 🛡️`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function quickCmd(cmd) {
+  document.getElementById('chatInput').value = cmd;
+  sendChat();
+}
+
+function sendChat() {
   const inp = document.getElementById('chatInput');
   const btn = document.getElementById('sendBtn');
   const val = inp.value.trim();
   if (!val) return;
-
   addMsg(val, 'user');
   inp.value = '';
   btn.disabled = true;
   showTyping();
-
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 300,
-        system: "Sen Zerith Security Bot'sun. Bir Discord siber güvenlik botusun. Kullanıcıların güvenlik sorularını kısa, net ve teknik olarak yanıtla. Komutlar: /scan, /hash, /portscan, /log. Türkçe yanıt ver. Yanıtları 2-3 cümle ile sınırla. Emoji kullanabilirsin.",
-        messages: [{ role: "user", content: val }]
-      })
-    });
-    const data = await res.json();
+  setTimeout(() => {
     removeTyping();
-    const reply = data.content?.[0]?.text || "Bir hata oluştu, lütfen tekrar deneyin.";
-    addMsg(reply, 'bot');
-  } catch(e) {
-    removeTyping();
-    addMsg("Bağlantı hatası. Gerçek bot için Discord'a ekleyin! 🛡️", 'bot');
-  }
-  btn.disabled = false;
+    addMsg(getBotResponse(val), 'bot');
+    btn.disabled = false;
+  }, 700 + Math.random() * 400);
 }
 
 function addMsg(text, type) {
@@ -376,7 +523,7 @@ function addMsg(text, type) {
   const row = document.createElement('div');
   row.className = 'msg-row' + (type === 'user' ? ' user' : '');
   row.innerHTML = type === 'user'
-    ? `<div class="bubble usr">${text}</div><div class="msg-av usr">👤</div>`
+    ? `<div class="bubble usr">${escapeHtml(text)}</div><div class="msg-av usr">👤</div>`
     : `<div class="msg-av bot">⚡</div><div class="bubble bot">${text}</div>`;
   box.appendChild(row);
   box.scrollTop = box.scrollHeight;
@@ -390,10 +537,78 @@ function showTyping() {
   box.appendChild(row);
   box.scrollTop = box.scrollHeight;
 }
-
 function removeTyping() { document.getElementById('typing')?.remove(); }
-
 document.getElementById('chatInput').addEventListener('keydown', e => { if(e.key==='Enter') sendChat(); });
+
+/* ── REVIEWS ── */
+const defaultReviews = [
+  { name:'Ahmet K.', stars:5, type:'Genel', text:'Port tarama özelliği çok kullanışlı, sunucumuzun güvenliğini ciddi artırdı. Kesinlikle tavsiye ederim!', date:'2 gün önce' },
+  { name:'Selin Y.', stars:5, type:'Teşekkür', text:'Kurulum hiç gerekmeden çalışması harika. Hash analizi özelliği tam aradığım şeydi.', date:'5 gün önce' },
+  { name:'M. Demir', stars:4, type:'Öneri', text:'Güzel bir bot. Log analizi bölümüne gerçek zamanlı uyarı sistemi eklenmesi harika olurdu.', date:'1 hafta önce' },
+  { name:'DevSec_TR', stars:5, type:'Genel', text:'Siber güvenlik topluluğumuz için mükemmel bir araç. Zafiyet tespiti çok detaylı raporlar üretiyor.', date:'2 hafta önce' },
+];
+
+let reviews = [...defaultReviews];
+let selectedStar = 0;
+let selectedType = 'Genel';
+
+function renderReviews() {
+  const list = document.getElementById('reviewsList');
+  list.innerHTML = reviews.map(r => `
+    <div class="review-card">
+      <div class="review-top">
+        <div class="review-author">
+          <div class="review-avatar">${r.name.charAt(0).toUpperCase()}</div>
+          <div>
+            <div class="review-name">${escapeHtml(r.name)}</div>
+            <div class="review-date">${r.date}</div>
+          </div>
+        </div>
+        <div class="review-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      </div>
+      <div class="review-text">${escapeHtml(r.text)}</div>
+      <span class="review-tag">${escapeHtml(r.type)}</span>
+    </div>
+  `).join('');
+}
+
+function setStar(v) {
+  selectedStar = v;
+  document.querySelectorAll('.star-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.v) <= v);
+  });
+}
+
+function selectType(el, type) {
+  selectedType = type;
+  document.querySelectorAll('.type-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function submitReview() {
+  const name = document.getElementById('rName').value.trim();
+  const text = document.getElementById('rText').value.trim();
+  if (!name) { document.getElementById('rName').focus(); return; }
+  if (!selectedStar) { alert('Lütfen bir puan seçin.'); return; }
+  if (!text) { document.getElementById('rText').focus(); return; }
+  reviews.unshift({ name, stars: selectedStar, type: selectedType, text, date: 'Az önce' });
+  renderReviews();
+  document.getElementById('reviewFormInner').style.display = 'none';
+  document.getElementById('reviewSuccess').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('rName').value = '';
+  document.getElementById('rText').value = '';
+  selectedStar = 0;
+  selectedType = 'Genel';
+  setStar(0);
+  document.querySelectorAll('.type-opt').forEach((o,i) => o.classList.toggle('selected', i===0));
+  document.getElementById('reviewFormInner').style.display = 'block';
+  document.getElementById('reviewSuccess').style.display = 'none';
+}
+
+renderReviews();
 </script>
 </body>
 </html>
